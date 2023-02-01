@@ -1,0 +1,173 @@
+{
+  "identifier" : "41AE7D43",
+  "nonRenewingSubscriptions" : [
+    {
+      "displayPrice" : "6.99",
+      "familyShareable" : false,
+      "internalID" : "8A8EBC53",
+      "localizations" : [
+        {
+          "description" : "Subscribe but don't",
+          "displayName" : "Non-Renew",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.non.renewable.subscription",
+      "referenceName" : "One year License",
+      "type" : "NonRenewingSubscription"
+    }
+  ],
+  "products" : [
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "5827DCB8",
+      "localizations" : [
+        {
+          "description" : "Unlock everything forever",
+          "displayName" : "LifeTime Unlock",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.lifetime.unlock",
+      "referenceName" : "LifeTime Unlock",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "9490D295",
+      "localizations" : [
+        {
+          "description" : "Use real money to by fake money :D",
+          "displayName" : "+5 Coins",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.monies.id",
+      "referenceName" : "Coins",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "BC9CDBBA",
+      "localizations" : [
+        {
+          "description" : "No more ads!",
+          "displayName" : "Remove ads",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.remove.ads",
+      "referenceName" : "Remove Ads",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "67870EFF",
+      "localizations" : [
+
+      ],
+      "name" : "Primary Subscription Group",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "6.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "026C76D8",
+          "introductoryOffer" : {
+            "internalID" : "EAF62399",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P3D"
+          },
+          "localizations" : [
+            {
+              "description" : "Subscribe for one year",
+              "displayName" : "Yearly Subscription",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.yearly.unlock",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Yearly Unlock",
+          "subscriptionGroupID" : "67870EFF",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "0.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "C01F9A70",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Pay every week.",
+              "displayName" : "Weekly Subscription",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.weekly.unlock",
+          "recurringSubscriptionPeriod" : "P1W",
+          "referenceName" : "Weekly Unlock",
+          "subscriptionGroupID" : "67870EFF",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    },
+    {
+      "id" : "2AAA0FF3",
+      "localizations" : [
+
+      ],
+      "name" : "Secondary Subscription Group",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "4.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "D7872E83",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "A seperate subscription group",
+              "displayName" : "Secondary Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.secondary.monthly.subscription",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Secondary Monthly Subscription",
+          "subscriptionGroupID" : "2AAA0FF3",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 2,
+    "minor" : 0
+  }
+}
