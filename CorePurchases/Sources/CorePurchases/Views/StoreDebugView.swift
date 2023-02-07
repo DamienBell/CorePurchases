@@ -35,13 +35,7 @@ public struct StoreDebugView: View {
             }
 
             ForEach(store.subscriptionGroups(), id: \.id) { group in
-                Section("Auto-Renewable Group: \(group.referenceName)") {
-                    ForEach(Array(group.products)) { product in
-                        DebugProductCell(product: product) {
-                            didTapPurchase(product: product)
-                        }
-                    }
-                }
+                SubscriptionGroupDebug(group: group, store: store)
             }
             
             Section("Non-Renewable Subscriptions") {
@@ -52,7 +46,8 @@ public struct StoreDebugView: View {
                 }
             }
         }
-        .padding()
+        .font((.system(size: 14, weight: .medium, design: .monospaced)))
+        .padding(EdgeInsets(top: 4.0, leading: 8.0, bottom: 4.0, trailing: 8.0))
     }
     
     public init(store: Store) {
@@ -186,7 +181,6 @@ public struct DebugConsumableProductCell:View {
             Spacer()
             
             Button {
-                print(store.consumableAvailable(productId: product.id))
                 purchaseAction()
             } label: {
                 Text("+ \(increment) More")
@@ -203,7 +197,10 @@ public struct DebugConsumableProductCell:View {
         self.increment = increment
     }
 }
-private struct DemoProductDescription:View {
+
+
+
+struct DemoProductDescription:View {
     
     let product:Product
     
@@ -221,7 +218,7 @@ private struct DemoProductDescription:View {
     }
 }
 
-private struct LabeledCheck:View {
+struct LabeledCheck:View {
     
     let label:String
     let checked:Bool
@@ -242,6 +239,7 @@ private struct LabeledCheck:View {
             Text(label)
                 .font(.footnote)
                 .fontWeight(.light)
+            
             icon
                 .controlSize(.small)
                 .foregroundColor(tint)

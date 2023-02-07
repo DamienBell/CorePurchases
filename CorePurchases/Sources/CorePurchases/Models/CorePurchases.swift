@@ -33,6 +33,7 @@ public enum FetchState<Element> {
 public class Store: ObservableObject {
     
     public enum ProductTransaction {
+        
         case idle
         case purchasing(product: Product)
         case pending(purchase: Product)
@@ -54,9 +55,7 @@ public class Store: ObservableObject {
     @Published public var entitlements:FetchState<StoreKit.Transaction> = .idle
     @Published public var consumablePurchases:[String : Int] = .init()
     
-    var products:[Product] {
-        return store.results()
-    }
+    var products:[Product] { return store.results() }
     
     private var updateListenerTask: Task<Void, Error>? = nil
     
@@ -83,9 +82,9 @@ public class Store: ObservableObject {
                 do {
                     
                     let transaction = try self.checkVerified(result)
-            
                     await transaction.finish()
                
+                    print("listener recieved Transaction: ", transaction)
                     if let revokeReason = transaction.revocationReason {
                         
                         let validTransactions:[StoreKit.Transaction] = self.entitlements.results().filter { trans in
@@ -139,6 +138,7 @@ public class Store: ObservableObject {
     
         await setEntitlements(state: .fetching)
         var verified:[StoreKit.Transaction] = []
+        
         for await result in Transaction.currentEntitlements {
             do {
                 let transaction = try checkVerified(result)
@@ -148,9 +148,7 @@ public class Store: ObservableObject {
                 return
             }
         }
-        
-        print("entitlements: ", verified)
-        
+                
         await setEntitlements(state: .fetched(results: verified))
     }
     
@@ -190,16 +188,17 @@ public class Store: ObservableObject {
             return product.type == .consumable
         }
         
-        for consumable in consumables {
-            consumablePurchases[consumable.id] = await cache.consumables(for: consumable.id)
+        await MainActor.run {
+            for consumable in consumables {
+                consumablePurchases[consumable.id] = cache.consumables(for: consumable.id)
+            }
         }
     }
     
     func cache(product: Product, with entitlement: StoreKit.Transaction) {
         switch product.type {
         case .autoRenewable:
-            //check the expiration
-        
+            cache.markPurchased(product: product.id)
         break
         case .nonConsumable:
             cache.markPurchased(product: product.id)
@@ -209,7 +208,7 @@ public class Store: ObservableObject {
             //Consumables are not returned in Transaction.Entitlements
         break
         case .nonRenewable:
-            //check the experiation
+            cache.markPurchased(product: product.id)
         break
         default: break
         }
@@ -230,6 +229,7 @@ public class Store: ObservableObject {
                 await transaction.finish()
                 cache(product: product, with: transaction)
                 await setActiveTransaction(action: .idle)
+                print("adding transaction: ", transaction)
                 await setEntitlements(state: .fetched(results: entitlements.results() + [transaction]))
             break
             case .userCancelled:
@@ -329,6 +329,12 @@ extension Store {
 
 extension Store {
     
+    public func entitlement(for product: Product)->StoreKit.Transaction? {
+        return entitlements.results().first(where: { transaction in
+            return transaction.productID == product.id
+        })
+    }
+
     //search entitlements first, then fallback on the cache
     public func isNonConsumableOpen(productId: String)->Bool {
         
@@ -349,7 +355,12 @@ extension Store {
     }
     
     public func isSubscriptionOpen(productId: String)->Bool {
-        return false
+        if entitlements.results().contains(where: { transaction in
+            return transaction.productID == productId
+        }) {
+            return true
+        }
+        return cache.isPurchased(product: productId)
     }
     
     @MainActor public func consumableAvailable(productId: String)-> Int {

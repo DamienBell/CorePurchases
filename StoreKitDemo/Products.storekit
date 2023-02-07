@@ -77,7 +77,13 @@
       "subscriptions" : [
         {
           "adHocOffers" : [
-
+            {
+              "internalID" : "83C0193F",
+              "offerID" : "111",
+              "paymentMode" : "free",
+              "referenceName" : "Super Promo",
+              "subscriptionPeriod" : "P1W"
+            }
           ],
           "codeOffers" : [
 
@@ -109,7 +115,18 @@
 
           ],
           "codeOffers" : [
-
+            {
+              "eligibility" : [
+                "existing",
+                "new",
+                "expired"
+              ],
+              "internalID" : "09327734",
+              "isStackable" : true,
+              "paymentMode" : "free",
+              "referenceName" : "Weekly Offer Code",
+              "subscriptionPeriod" : "P3D"
+            }
           ],
           "displayPrice" : "0.99",
           "familyShareable" : false,

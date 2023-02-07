@@ -12,6 +12,7 @@ public struct PurchasesCache {
     //pass one ore more product id's for a non-consumbable purchase
     //True if any of the purchases are true
     //Passing more than one product is often needed for tiered purchases where more than one purchase can be true
+
     public init(){}
     
     public func isPurchased(products:[String])->Bool {

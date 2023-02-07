@@ -7,23 +7,10 @@
 
 import StoreKit
 
-
 //MARK: The Cache is our Univeral source of truth.
 public extension Product {
     
     static var cache:PurchasesCache { return PurchasesCache() }
-    
-    func cachePurchase() {
-        Self.cache.markPurchased(product: self.id)
-    }
-    
-    func clearCache() {
-        Self.cache.close(product: self.id)
-    }
-    
-    func purchaseIsCached()->Bool {
-        return Self.cache.isPurchased(product: self.id)
-    }
     
     var isSubscription:Bool {
         return subscription != nil
@@ -66,7 +53,47 @@ extension Product.SubscriptionInfo.RenewalState {
     }
 }
 
+extension Product.SubscriptionOffer {
+    var display:String {
+        
+        return """
+            \(self.type.localizedDescription)
+            \(displayPrice) for \(self.period.debugDescription)
+            \(self.paymentMode.localizedDescription)
+        """
+    }
+}
 
+extension Product.SubscriptionOffer.OfferType {
+    var display:String {
+        return self.localizedDescription
+    }
+}
+
+extension Product.SubscriptionPeriod {
+ 
+    @available(iOS 15.4, *)
+    var display:String {
+        return "\(self.unit) \(unit.localizedDescription)"
+    }
+}
+
+extension StoreKit.Transaction {
+    var renewalInfoDisplay:String? {
+        guard let _ = self.subscriptionGroupID else {
+            return nil
+        }
+        guard let expiration = expirationDate else {
+            return nil
+        }
+        
+        if let revocationReason = revocationReason {
+            return "Expires: \(expiration.formatted()) | \(revocationReason.localizedDescription)"
+        } else {
+            return "Renews: \(expiration.formatted())"
+        }
+    }
+}
 extension Date {
     func priceFormat() -> String {
         let dateFormatter = DateFormatter()

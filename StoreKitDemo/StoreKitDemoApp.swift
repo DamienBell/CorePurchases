@@ -21,7 +21,8 @@ struct StoreKitDemoApp: App {
     
     var body: some Scene {
         WindowGroup {
-            StoreDebugView(store: appStore)
+            //StoreDebugView(store: appStore)
+            StoreNavigation()
         }
     }
 }
